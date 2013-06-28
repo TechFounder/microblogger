@@ -13,7 +13,27 @@ class MicroBlogger
 		#if message.length > 140
 	end
 
-	def run
+	def dm(target, message)
+		screen_names = @client.followers.collect{ |follower| follower.screen_name}
+		if screen_names.include?(target)
+			puts "Trying to send #{target} this direct message: "
+			puts message
+		else
+			puts "Sorry, I can only DM people who follows you!"
+		end
+	end
+
+	def followers_list()
+		screen_names = []
+		screen_names << followers.collect.each{ |follower| follower.screen_name}
+
+	end
+
+	def spam_my_friends()
+		dm(target, message)
+	end
+		
+	def run()
 		puts "Welcome to the JSL Twitter CLient!"
 		command = ""
 		while command != "q"
@@ -26,6 +46,11 @@ class MicroBlogger
 					tweet(message)
 					puts "OK, done!"
 					break
+				when 'dm' then print "Who do you want to dm? "
+					target = gets.chomp
+					print "What's your message? "
+					message = gets.chomp
+					dm(target, message)
 				else
 					puts "Sorry, I dont; know to to #{command}"
 			end	
