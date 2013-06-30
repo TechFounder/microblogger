@@ -9,8 +9,11 @@ class MicroBlogger
 	end
 
 	def tweet(message)
-		@client.update(message)
-		#if message.length > 140
+		if message.length.to_i > 140
+			puts "Please type fewer than 140 characters!"
+		else	
+			@client.update(message)
+		end
 	end
 
 	def dm(target, message)
@@ -19,7 +22,7 @@ class MicroBlogger
 			puts "Trying to send #{target} this direct message: "
 			puts message
 		else
-			puts "Sorry, I can only DM people who follows you!"
+			puts "Sorry, I can only DM people who follow you!"
 		end
 	end
 
