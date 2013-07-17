@@ -3,7 +3,7 @@ require 'jumpstart_auth'
 class MicroBlogger
 	attr_reader :client
 
-	def initialize
+	def initialize()
 		puts "initializing..."
 		@client = JumpstartAuth.twitter
 	end
@@ -17,7 +17,7 @@ class MicroBlogger
 	end
 
 	def dm(target, message)
-		screen_names = @client.followers.collect{ |follower| follower.screen_name}
+		screen_names = @client.followers.collect { |follower| follower.screen_name}
 		if screen_names.include?(target)
 			puts "Trying to send #{target} this direct message: "
 			puts message
@@ -28,11 +28,12 @@ class MicroBlogger
 
 	def followers_list()
 		screen_names = []
-		screen_names << followers.collect.each{ |follower| follower.screen_name}
-
+		screen_names << followers.collect.each { |follower| follower.screen_name}
+		screen_names
 	end
 
-	def spam_my_friends()
+	def spam_my_followers(message)
+		target = followers_list
 		dm(target, message)
 	end
 		
@@ -40,7 +41,7 @@ class MicroBlogger
 		puts "Welcome to the JSL Twitter CLient!"
 		command = ""
 		while command != "q"
-			printf "enter command: "
+			printf "enter command (q)uit (t)witter (dm)direct message (spam)followers: "
 			command = gets.chomp
 			case command
 				when 'q' then puts "Goodbye!"
@@ -54,6 +55,9 @@ class MicroBlogger
 					print "What's your message? "
 					message = gets.chomp
 					dm(target, message)
+				when 'spam'	then print "What's your message? "
+					message = gets.chomp
+					spam_my_followers(message)
 				else
 					puts "Sorry, I dont; know to to #{command}"
 			end	
